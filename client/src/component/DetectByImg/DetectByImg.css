@@ -1,0 +1,9 @@
+.btn_dd {
+  margin-top: 20px;
+  text-align: center;
+  background-color: #0d6efd;
+  color: white;
+  padding: 10px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
