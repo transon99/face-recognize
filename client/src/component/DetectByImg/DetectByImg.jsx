@@ -10,16 +10,15 @@ export default function DetectByImg() {
   const inputElement = useRef();
   const containerE = useRef();
   let [faceMatcher, setFaceMatcher] = useState({});
-  // const [currentDay, setCurrentDay] = useState('');
   let [studentAttendance, setStudentAttendance] = useState([]);
   var date = moment();
 
   const initTrainingData = async () => {
     const labels = [
-      'Fukada Eimi - 20229038',
-      'Rina Ishihara - 20229018',
-      'Takizawa Laura - 20229037',
-      'Yua Mikami - 20229036',
+      'Trần Thanh Sơn - 20229038',
+      'Dương Quang Huy - 20229018',
+      'Lại Thế Chung - 20229020',
+      'Nguyễn Đình Duy - 20229036',
     ];
 
     const faceDescriptors = [];
@@ -81,14 +80,13 @@ export default function DetectByImg() {
     const student_list = [];
 
     for (const detection of resizeDetections) {
-      console.log(detection);
+      console.log(faceMatcher);
       const box = detection.detection.box;
       const drawBox = new faceapi.draw.DrawBox(box, {
         label: faceMatcher.findBestMatch(detection.descriptor),
       });
       drawBox.draw(canvas);
       var currentDate = date.format('YYYY-MM-DD');
-      console.log('day', currentDate);
       const studentDetected = drawBox.options.label._label;
       const arr = studentDetected.split(' - ');
       student_list.push({
