@@ -7,28 +7,6 @@ export default function AttendanceList() {
   const [studentList, setStudentList] = useState([]);
   console.log(studentList);
   const listDay = ['19/05/2023'];
-  // const listStudent = [
-  //   {
-  //     name: 'Son',
-  //     mssv: '20229038',
-  //     diemDanh: ['11/5/2023', '12/5/2023', '13/5/2023'],
-  //   },
-  //   {
-  //     name: 'Chung',
-  //     mssv: '20229038',
-  //     diemDanh: ['11/5/2023', '12/5/2023', '13/5/2023', '14/5/2023'],
-  //   },
-  //   {
-  //     name: 'Huy',
-  //     mssv: '20229038',
-  //     diemDanh: ['11/5/2023', '', '13/5/2023'],
-  //   },
-  //   {
-  //     name: 'Duy',
-  //     mssv: '20229038',
-  //     diemDanh: ['11/5/2023', '12/5/2023', '13/5/2023'],
-  //   },
-  // ];
 
   useEffect(() => {
     const fetchProductList = async () => {

@@ -1,12 +1,12 @@
 import * as faceapi from 'face-api.js';
 import './DetectByCam.css';
 import { useEffect, useRef, useState } from 'react';
-import { toast } from 'react-toastify';
 import attendanceApi from '../../api/attendanceApi';
 import moment from 'moment';
 var date = moment();
 
-export default function DetectByWebcam() {
+export default function DetectByWebcam(data) {
+  console.log('labeledFaceDescriptors', data.labeledFaceDescriptors);
   const videoRef = useRef();
   const containerRef = useRef();
   let [studentAttendance, setStudentAttendance] = useState([]);
@@ -14,7 +14,7 @@ export default function DetectByWebcam() {
   // LOAD FROM USEEFFECT
   useEffect(() => {
     startVideo();
-    videoRef && init();
+    videoRef;
   }, []);
 
   // OPEN YOU FACE WEBCAM
@@ -29,49 +29,9 @@ export default function DetectByWebcam() {
       });
   };
 
-  const initTrainingData = async () => {
-    const labels = [
-      'Trần Thanh Sơn - 20229038',
-      'Dương Quang Huy - 20229018',
-      'Lại Thế Chung - 20229020',
-      'Nguyễn Đình Duy - 20229036',
-    ];
-
-    const faceDescriptors = [];
-    for (const label of labels) {
-      const descriptors = [];
-      for (let i = 1; i <= 4; i++) {
-        const img = await faceapi.fetchImage(`/data/${label}/${i}.jpeg`);
-        const detection = await faceapi
-          .detectSingleFace(img)
-          .withFaceLandmarks()
-          .withFaceDescriptor();
-        descriptors.push(detection.descriptor);
-      }
-      const notify = () => toast('Tranning data successfully !!!');
-      notify();
-      faceDescriptors.push(
-        new faceapi.LabeledFaceDescriptors(label, descriptors)
-      );
-    }
-    return faceDescriptors;
-  };
-
-  const init = async () => {
-    await Promise.all([
-      faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
-      faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-      faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-    ]);
-    const notify = () => toast('Loading modals successfully !!!');
-    notify();
-    // const trainingData = await initTrainingData();
-    // setFaceMatcher(new faceapi.FaceMatcher(trainingData, 0.6));
-  };
-
   const faceDetect = async () => {
-    const labeledFaceDescriptors = await initTrainingData();
-    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors);
+    const labeledFaceDescriptors = data.labeledFaceDescriptors;
+    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
     const video = videoRef.current;
     const canvas = faceapi.createCanvasFromMedia(video);
     containerRef.current.append(canvas);
@@ -95,7 +55,6 @@ export default function DetectByWebcam() {
       const student_list = [];
       for (const detection of resizeDetections) {
         const box = detection.detection.box;
-        console.log(faceMatcher);
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: faceMatcher?.findBestMatch(detection.descriptor),
         });
@@ -119,7 +78,7 @@ export default function DetectByWebcam() {
         console.log(student);
         const response = await attendanceApi.AttendanceAll(student);
 
-        console.log('Fetch products successfully: ', response);
+        console.log('Attendance successfully: ', response);
       }
     } catch (error) {
       console.log('Failed to Attendance: ', error);

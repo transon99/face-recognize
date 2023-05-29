@@ -1,62 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { useRef, useState } from 'react';
 import moment from 'moment';
 import 'react-toastify/dist/ReactToastify.css';
 import * as faceapi from 'face-api.js';
 import './DetectByImg.css';
 import attendanceApi from '../../api/attendanceApi';
 
-export default function DetectByImg() {
+export default function DetectByImg(labeledFaceDescriptors) {
   const inputElement = useRef();
   const containerE = useRef();
-  let [faceMatcher, setFaceMatcher] = useState({});
   let [studentAttendance, setStudentAttendance] = useState([]);
   var date = moment();
 
-  const initTrainingData = async () => {
-    const labels = [
-      'Trần Thanh Sơn - 20229038',
-      'Dương Quang Huy - 20229018',
-      'Lại Thế Chung - 20229020',
-      'Nguyễn Đình Duy - 20229036',
-    ];
-
-    const faceDescriptors = [];
-    for (const label of labels) {
-      const descriptors = [];
-      for (let i = 1; i <= 4; i++) {
-        const img = await faceapi.fetchImage(`/data/${label}/${i}.jpeg`);
-        const detection = await faceapi
-          .detectSingleFace(img)
-          .withFaceLandmarks()
-          .withFaceDescriptor();
-        descriptors.push(detection.descriptor);
-      }
-      const notify = () => toast('Tranning data successfully !!!');
-      notify();
-      faceDescriptors.push(
-        new faceapi.LabeledFaceDescriptors(label, descriptors)
-      );
-    }
-    return faceDescriptors;
-  };
-
-  const init = async () => {
-    await Promise.all([
-      faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
-      faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-      faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-    ]);
-    const notify = () => toast('Loading modals successfully !!!');
-    notify();
-    const trainingData = await initTrainingData();
-    setFaceMatcher(new faceapi.FaceMatcher(trainingData, 0.6));
-  };
-  useEffect(() => {
-    init();
-  }, []);
-
   const selectImg = async () => {
+    const faceMatcher = new faceapi.FaceMatcher(
+      labeledFaceDescriptors.labeledFaceDescriptors
+    );
     const imgFile = inputElement.current.files[0];
 
     const img = await faceapi.bufferToImage(imgFile);
@@ -80,7 +38,6 @@ export default function DetectByImg() {
     const student_list = [];
 
     for (const detection of resizeDetections) {
-      console.log(faceMatcher);
       const box = detection.detection.box;
       const drawBox = new faceapi.draw.DrawBox(box, {
         label: faceMatcher.findBestMatch(detection.descriptor),
@@ -123,7 +80,6 @@ export default function DetectByImg() {
       <div className="btn_dd" onClick={Attendance}>
         Điểm danh
       </div>
-      <ToastContainer />
     </div>
   );
 }

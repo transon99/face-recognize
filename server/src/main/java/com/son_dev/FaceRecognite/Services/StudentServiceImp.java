@@ -35,16 +35,16 @@ public class StudentServiceImp implements  IStudentService{
 
     @Override
     public StudentDTO attendance(StudentDTO studentDTO) {
-//        StudentEntity studentEntity = new StudentEntity();
-//        if (studentDTO.getId() != null){
-//            StudentEntity oldStudentEntity = studentRepositories.findOneByMssv(studentDTO.getMSSV());
-//            studentEntity = studentMapper.toStudentEntity(studentDTO, oldStudentEntity);
-//        }else{
-//            studentEntity  = studentMapper.toStudentEntity(studentDTO);
-//        }
-
-        StudentEntity studentEntity = studentRepositories.save(studentMapper.toStudentEntity(studentDTO));
+        StudentEntity studentEntity = new StudentEntity();
+        StudentEntity oldStudentEntities = studentRepositories.findOneByMssv(studentDTO.getMSSV());
+        if (oldStudentEntities.getId() != null){
+            studentEntity = studentMapper.toStudentEntity(studentDTO, oldStudentEntities);
+        }else {
+            studentEntity = studentMapper.toStudentEntity(studentDTO);
+        }
+        studentEntity = studentRepositories.save(studentEntity);
         StudentDTO result = studentMapper.toStudentDTO(studentEntity);
+
         return result;
     }
 }
