@@ -4,6 +4,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import * as faceapi from 'face-api.js';
 import './DetectByImg.css';
 import attendanceApi from '../../api/attendanceApi';
+import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function DetectByImg(labeledFaceDescriptors) {
   const inputElement = useRef();
@@ -13,7 +15,8 @@ export default function DetectByImg(labeledFaceDescriptors) {
 
   const selectImg = async () => {
     const faceMatcher = new faceapi.FaceMatcher(
-      labeledFaceDescriptors.labeledFaceDescriptors
+      labeledFaceDescriptors.labeledFaceDescriptors,
+      0.5
     );
     const imgFile = inputElement.current.files[0];
 
@@ -43,7 +46,7 @@ export default function DetectByImg(labeledFaceDescriptors) {
         label: faceMatcher.findBestMatch(detection.descriptor),
       });
       drawBox.draw(canvas);
-      var currentDate = date.format('YYYY-MM-DD');
+      var currentDate = date.format('DD-MM-YYYY');
       const studentDetected = drawBox.options.label._label;
       const arr = studentDetected.split(' - ');
       student_list.push({
@@ -56,15 +59,19 @@ export default function DetectByImg(labeledFaceDescriptors) {
   };
 
   const Attendance = async () => {
-    try {
-      for (const student of studentAttendance) {
+    for (const student of studentAttendance) {
+      try {
         console.log(student);
-        const response = await attendanceApi.AttendanceAll(student);
 
-        console.log('Fetch products successfully: ', response);
+        if (student.fullName !== 'unknown') {
+          const response = await attendanceApi.AttendanceAll(student);
+          console.log('Fetch products successfully: ', response);
+          const notify = () => toast(`Đã điểm danh ${student.fullName}`);
+          notify();
+        }
+      } catch (error) {
+        console.log('Failed to Attendance: ', error);
       }
-    } catch (error) {
-      console.log('Failed to Attendance: ', error);
     }
   };
 
@@ -80,6 +87,7 @@ export default function DetectByImg(labeledFaceDescriptors) {
       <div className="btn_dd" onClick={Attendance}>
         Điểm danh
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 package com.son_dev.FaceRecognite.Controller;
 
-import com.son_dev.FaceRecognite.Entity.StudentEntity;
 import com.son_dev.FaceRecognite.Model.DTO.StudentDTO;
 import com.son_dev.FaceRecognite.Model.ResponseObj.ResponseObject;
 import com.son_dev.FaceRecognite.Services.IStudentService;

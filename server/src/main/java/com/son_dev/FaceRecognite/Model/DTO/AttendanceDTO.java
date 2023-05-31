@@ -5,18 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentDTO {
+public class AttendanceDTO {
     private Long id;
-
-    private String fullName;
-
-    private String MSSV;
-
-    private Set<AttendanceDTO> attendances;
+    private String attendanceDay;
 }

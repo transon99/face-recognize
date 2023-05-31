@@ -3,6 +3,7 @@ import './DetectByCam.css';
 import { useEffect, useRef, useState } from 'react';
 import attendanceApi from '../../api/attendanceApi';
 import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
 var date = moment();
 
 export default function DetectByWebcam(data) {
@@ -77,8 +78,9 @@ export default function DetectByWebcam(data) {
       for (const student of studentAttendance) {
         console.log(student);
         const response = await attendanceApi.AttendanceAll(student);
-
         console.log('Attendance successfully: ', response);
+        const notify = () => toast(`Đã điểm danh ${student.fullName}`);
+        notify();
       }
     } catch (error) {
       console.log('Failed to Attendance: ', error);
@@ -100,6 +102,7 @@ export default function DetectByWebcam(data) {
           Điểm danh
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

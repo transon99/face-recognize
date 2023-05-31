@@ -4,10 +4,10 @@ import DetectByImg from './component/DetectByImg/DetectByImg';
 import AttendanceList from './component/AttendanceList/AttendanceList';
 import DetectByWebcam from './component/DetecByCam/DetectByWebcam';
 import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import * as faceapi from 'face-api.js';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 function App() {
   const [faceDescriptors, setFaceDescriptors] = useState([]);
   useEffect(() => {
@@ -55,14 +55,14 @@ function App() {
 
   return (
     <div className="container">
-      <h1 className="header">FACE DETECTION</h1>
+      <h1 className="header">ỨNG DỤNG NHẬN DIỆN KHUÔN MẶT VÀ ĐIỂM DANH</h1>
       <nav>
         <ul className="list">
           <li className="item">
-            <NavLink to="/byimg">Detect by Img</NavLink>
+            <NavLink to="/byimg">Điểm danh bằng ảnh</NavLink>
           </li>
           <li className="item">
-            <NavLink to="/bywebcam">Detect by Webcam</NavLink>
+            <NavLink to="/bywebcam">Điểm danh bằng webcam</NavLink>
           </li>
           <li className="item">
             <NavLink to="/dsdiemdanh">Danh sách điểm danh</NavLink>

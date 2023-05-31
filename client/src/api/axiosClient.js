@@ -6,7 +6,7 @@ import queryString from 'query-string';
 // Please have a look at here `https://github.com/axios/axios#request-
 
 const axiosClient = axios.create({
-    baseURL: "http://localhost:8081/api/v1/students",
+    baseURL: "http://localhost:8081/api/v1",
     headers: {
         'content-type': 'application/json',
     },
