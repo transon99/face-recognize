@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -34,4 +35,16 @@ public class StudentEntity {
 //    @JsonManagedReference
     private Set<AttendanceEntity> attendances;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentEntity that = (StudentEntity) o;
+        return Objects.equals(fullName, that.fullName) && Objects.equals(mssv, that.mssv) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName, mssv);
+    }
 }

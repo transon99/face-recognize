@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="container">
       <h1 className="header">ỨNG DỤNG NHẬN DIỆN KHUÔN MẶT VÀ ĐIỂM DANH</h1>
-      <nav>
+      <nav className="container-n">
         <ul className="list">
           <li className="item">
             <NavLink to="/byimg">Điểm danh bằng ảnh</NavLink>
@@ -68,6 +68,10 @@ function App() {
             <NavLink to="/dsdiemdanh">Danh sách điểm danh</NavLink>
           </li>
         </ul>
+        <img
+          src="https://images.ctfassets.net/3viuren4us1n/5YzA7KGIWQEjt8KStZGlxd/85bde9966a9e9c4407396f424e46fc67/facial_recognition.jpg?fm=webp&w=828"
+          alt=""
+        />
       </nav>
       <ToastContainer />
 

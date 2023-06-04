@@ -12,4 +12,5 @@ import lombok.Setter;
 public class AttendanceDTO {
     private Long id;
     private String attendanceDay;
+
 }

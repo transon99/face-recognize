@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -31,4 +32,16 @@ public class AttendanceEntity {
     @JsonBackReference
     private Set<StudentEntity> students;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AttendanceEntity that)) return false;
+        return Objects.equals(attendanceDay, that.attendanceDay);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash( attendanceDay);
+    }
 }

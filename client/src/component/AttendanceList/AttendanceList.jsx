@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { BsCheckSquareFill } from 'react-icons/bs';
-import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 
 import './AttendanceList.css';
@@ -97,7 +96,6 @@ export default function AttendanceList() {
           ))}
         </tbody>
       </table>
-      <ToastContainer />
     </div>
   );
 }
